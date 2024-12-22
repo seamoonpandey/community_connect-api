@@ -11,7 +11,6 @@ const upload = multer(); // Initialize multer for parsing form-data
 // Register route
 router.post(
   "/register",
-  upload.none(), // Middleware to parse form-data
   [
     body("name").notEmpty().withMessage("Name is required"),
     body("email").isEmail().withMessage("Invalid email address"),
