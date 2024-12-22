@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
     leaderboard.sort((a, b) => b.score - a.score);
 
     // Return the leaderboard
-    res.json({ leaderboard });
+    res.json(leaderboard);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
