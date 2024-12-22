@@ -7,6 +7,7 @@ import eventRoutes from "./routes/events.js";
 import participationRoutes from "./routes/participations.js";
 import userRoutes from "./routes/users.js";
 import leaderBoardRoutes from "./routes/leaderboard.js";
+import publicEventRoutes from "./routes/public_events.js";
 import { authenticateToken } from "./middleware/auth.js";
 
 dotenv.config();
@@ -30,7 +31,8 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 
 // Protected routes
-app.use("/events", eventRoutes);
+app.use("/events", authenticateToken, eventRoutes);
+app.use("/listevents", publicEventRoutes);
 app.use("/participate", authenticateToken, participationRoutes);
 app.use("/users", authenticateToken, userRoutes);
 app.use("/leaderboard", leaderBoardRoutes);
