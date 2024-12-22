@@ -2,11 +2,9 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import multer from "multer";
 import supabase from "../config/supabase.js";
 
 const router = express.Router();
-const upload = multer(); // Initialize multer for parsing form-data
 
 // Register route
 router.post(
@@ -91,11 +89,34 @@ router.post(
         expiresIn: "1h", // Token expires in 1 hour
       });
 
-      // Return user biodata and token
+      // Get user stats
+      const { data: hostedEvents, error: hostedError } = await supabase
+        .from("events")
+        .select("id")
+        .eq("host_id", user.id);
+
+      const { data: participations, error: participationsError } =
+        await supabase
+          .from("participations")
+          .select("id, attended")
+          .eq("user_id", user.id);
+
+      if (hostedError || participationsError) {
+        return res.status(500).json({ error: "Error fetching stats" });
+      }
+
+      const stats = {
+        hosted: hostedEvents.length,
+        participated: participations.length,
+        attended: participations.filter((p) => p.attended).length,
+      };
+
+      // Return user biodata, token, and stats
       const { password: _, ...userData } = user; // Exclude the password from the response
       res.json({
         token,
         user: userData,
+        stats,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
