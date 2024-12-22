@@ -74,7 +74,7 @@ router.post(
       // Fetch the user from the database
       const { data: user, error } = await supabase
         .from("users")
-        .select("*")
+        .select("*") // Select all fields
         .eq("email", email)
         .single();
 
@@ -93,7 +93,12 @@ router.post(
         expiresIn: "1h", // Token expires in 1 hour
       });
 
-      res.json({ token });
+      // Return user biodata and token
+      const { password: _, ...userData } = user; // Exclude the password from the response
+      res.json({
+        token,
+        user: userData,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
