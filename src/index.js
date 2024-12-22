@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import multer from "multer";
 import authRoutes from "./routes/auth.js";
 import eventRoutes from "./routes/events.js";
 import participationRoutes from "./routes/participations.js";
@@ -12,8 +13,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Multer configuration for parsing form-data
+const upload = multer();
+
+// Global middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // For parsing JSON bodies
+app.use(upload.none()); // For parsing form-data bodies
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
