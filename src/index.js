@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 
 // Protected routes
-app.use("/events", authenticateToken, eventRoutes);
+app.use("/events", eventRoutes);
 app.use("/participate", authenticateToken, participationRoutes);
 app.use("/users", authenticateToken, userRoutes);
 app.use("/leaderboard", leaderBoardRoutes);
