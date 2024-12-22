@@ -49,7 +49,6 @@ router.post(
 // Login route
 router.post(
   "/login",
-  upload.none(), // Middleware to parse form-data
   [
     body("email").isEmail().withMessage("Invalid email address"),
     body("password").notEmpty().withMessage("Password is required"),

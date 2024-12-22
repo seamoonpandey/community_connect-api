@@ -30,7 +30,7 @@ app.use("/auth", authRoutes);
 
 // Protected routes
 app.use("/events", authenticateToken, eventRoutes);
-app.use("/participations", authenticateToken, participationRoutes);
+app.use("/participate", authenticateToken, participationRoutes);
 app.use("/users", authenticateToken, userRoutes);
 
 app.listen(PORT, () => {
