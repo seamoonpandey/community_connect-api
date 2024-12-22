@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import eventRoutes from "./routes/events.js";
 import participationRoutes from "./routes/participations.js";
 import userRoutes from "./routes/users.js";
+import leaderBoardRoutes from "./routes/leaderboard.js";
 import { authenticateToken } from "./middleware/auth.js";
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use("/auth", authRoutes);
 app.use("/events", authenticateToken, eventRoutes);
 app.use("/participate", authenticateToken, participationRoutes);
 app.use("/users", authenticateToken, userRoutes);
+app.use("/leaderboard", leaderBoardRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
